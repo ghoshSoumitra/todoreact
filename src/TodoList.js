@@ -3,6 +3,8 @@ import axios from 'axios';
 import './todo.css';
 
 const TodoList = () => {
+
+  //setting the state variables
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [editingTodoId, setEditingTodoId] = useState(null);
@@ -12,6 +14,7 @@ const TodoList = () => {
     fetchTodos();
   }, []);
 
+//To fetch the data from the API
   const fetchTodos = async () => {
     try {
       const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
@@ -21,6 +24,7 @@ const TodoList = () => {
     }
   };
 
+//For adding a new item in todolist
   const addTodo = () => {
     const newTodoItem = {
       id: Date.now(),
@@ -32,6 +36,7 @@ const TodoList = () => {
     setNewTodo('');
   };
 
+//To update an exixting item
   const updateTodo = (id, newTitle) => {
     const updatedTodos = todos.map(todo => {
       if (todo.id === id) {
@@ -48,7 +53,7 @@ const TodoList = () => {
     setEditingTodoTitle('');
   };
   
-
+//To delete an item from the list
   const deleteTodo = (id) => {
     const filteredTodos = todos.filter(todo => todo.id !== id);
     setTodos(filteredTodos);
@@ -58,6 +63,8 @@ const TodoList = () => {
     <div>
       <h1>My Todo List</h1>
       <div id="inputdiv">
+
+        {/* input  */}
         <input type="text" value={newTodo} onChange={(e) => setNewTodo(e.target.value)} id="input" />
         <button onClick={addTodo} id="add">
           Add Todo
@@ -68,6 +75,7 @@ const TodoList = () => {
           <li key={todo.id} className="list">
             {editingTodoId === todo.id ? (
               <>
+              {/* to update an exixting item */}
                 <input
                   type="text"
                   value={editingTodoTitle}
@@ -81,6 +89,8 @@ const TodoList = () => {
               <>
                 <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.title}</span>
                 <div>
+
+                  {/* buttons */}
                   <button onClick={() => updateTodo(todo.id, todo.title)} id="complete">
                     {todo.completed ? 'Undo' : 'Complete'}
                   </button>
